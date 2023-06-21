@@ -1,23 +1,33 @@
-
+import { useForm } from "react-hook-form";
 import { StaysContext } from "@/context/StaysContext";
 import { useContext, useEffect, useState } from "react";
 
 function SearchModal(props) {
-  const {state:stays} = useContext(StaysContext)
+  const { register, handleSubmit } = useForm();
+  const { state: stays } = useContext(StaysContext);
   const [filteredStays, setFilteredStays] = useState([]);
-  const [filteredGuests,setFilteredGuests] = useState([])
-  const {dispatch} = useContext(StaysContext)
-  
+  const [filteredGuests, setFilteredGuests] = useState([]);
+  const { dispatch } = useContext(StaysContext);
+  const [city,setCity] = useState("")
+  const onSubmit = (data) => console.log(data);
+  const handleCityInput = () => {
+    
+  }
+
   // useEffect(() => {
   //   dispatch({type:"FILTERED_GUESTS",payload:filteredGuests})
   // },[filteredGuests])
- 
+
   return (
     <div className="h-max w-full bg-white absolute top-0 left-0">
       <div className="relative top-10 left-6 w-[95%] mb-10">
-        <form  className="flex items-start  rounded-2xl">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex items-start  rounded-2xl"
+        >
           <div className="w-[45%] sm:w-full">
             <input
+              {...register("stay")}
               onChange={(e) =>
                 setFilteredStays(
                   stays.filter((stay) =>
@@ -30,35 +40,50 @@ function SearchModal(props) {
               placeholder="Helsinki,Finland"
             />
             <div>
-              {filteredStays && filteredStays.map((stay) => (
-                <p key={stay.title} className="flex items-center space-x-1 text-sm p-2">
-                  <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-5 h-5 text-[#4F4F4F]"
+              {filteredStays &&
+                [...new Set(filteredStays.map((value) => value.city))]
+                  .map((city) => {
+                    return filteredStays.find((value) => value.city === city);
+                  })
+                  .map((stay) => (
+                    <p
+                      key={stay.title}
+                      className="flex items-center space-x-1 text-sm p-2"
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                  <span> {stay.city},{stay.country}</span>
-                </p>
-              ))}
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="w-5 h-5 text-[#4F4F4F]"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </span>
+                      <span onClick={() => setCity(stay.city)}>
+                        {" "}
+                        {stay.city},{stay.country}
+                      </span>
+                    </p>
+                  ))}
             </div>
           </div>
 
           <div className="w-[50%] sm:w-full ">
             <div>
               <input
+                {...register("guest")}
                 onChange={(e) =>
-                 setFilteredGuests(
-                    filteredStays.filter((stay) => stay.maxGuests >= e.target.value)
-                  )}
+                  setFilteredGuests(
+                    filteredStays.filter(
+                      (stay) => stay.maxGuests >= e.target.value
+                    )
+                  )
+                }
                 className="w-full text-md p-2 pl-4 shadow border-r border-r-gray-300 focus:outline-none"
                 type="text"
                 placeholder="Add Guests"

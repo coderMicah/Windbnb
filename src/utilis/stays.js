@@ -11,7 +11,7 @@
     "photo": "https://images.unsplash.com/photo-1505873242700-f289a29e1e0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=2255&q=80"
   },
   {
-    "city": "Turku",
+    "city": "Hurku",
     "country": "Finland",
     "superHost": false,
     "title": "Nice apartment in center of Helsinki",
@@ -55,7 +55,7 @@
     "photo": "https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2249&q=80"
   },
   {
-    "city": "Vaasa",
+    "city": "Haasa",
     "country": "Finland",
     "superHost": true,
     "title": "A cosy family house",
